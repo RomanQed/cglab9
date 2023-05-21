@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="720.0" prefWidth="1280.0"
+            xmlns="http://javafx.com/javafx/8" fx:controller="com.github.romanqed.cglab9.MainController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <Menu text="Главное">
+                <MenuItem onAction="#onAboutAction" text="О программе"/>
+                <MenuItem onAction="#onAuthorAction" text="Автор"/>
+                <MenuItem accelerator="Ctrl+Q" onAction="#onExitAction" text="Выход"/>
+            </Menu>
+            <Menu text="Редактировать">
+                <MenuItem accelerator="Ctrl+Z" onAction="#onCancelAction" text="Отменить"/>
+                <MenuItem accelerator="Ctrl+X" onAction="#onRedoAction" text="Вернуть"/>
+                <MenuItem onAction="#onResetAction" text="Сбросить"/>
+            </Menu>
+        </MenuBar>
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.80" prefHeight="160.0" prefWidth="200.0"
+                   BorderPane.alignment="TOP_LEFT">
+
+            <ScrollPane vvalue="1.0">
+                <Canvas fx:id="canvas" width="2000" height="2000" onMouseClicked="#onCanvasMouseClicked"/>
+            </ScrollPane>
+            <ScrollPane>
+                <VBox>
+                    <TitledPane text="Координаты">
+                        <VBox>
+                            <TextField fx:id="x" promptText="X: "/>
+                            <TextField fx:id="y" promptText="Y: "/>
+                        </VBox>
+                    </TitledPane>
+                    <Button text="Добавить точку" onAction="#onAddPoint"/>
+                    <Button text="Задать отсекатель" onAction="#onSetCutter"/>
+                    <Button text="Задать фигуру" onAction="#onSetFigure"/>
+                    <Button text="Сбросить точки" onAction="#onPointsReset"/>
+                    <Button text="Сбросить отсекатель" onAction="#onResetCutter"/>
+                    <Button text="Сбросить фигуру" onAction="#onResetFigure"/>
+                </VBox>
+            </ScrollPane>
+        </SplitPane>
+    </center>
+</BorderPane>
