@@ -49,11 +49,11 @@ public class Figure {
                     continue;
                 }
                 if (Line.isIntersect(a, b, c, d)) {
-                    return false;
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     public int getConvexity() {
@@ -75,7 +75,7 @@ public class Figure {
     }
 
     public boolean isConvex() {
-        return getConvexity() != 0 && hasSelfIntersect();
+        return getConvexity() != 0 && !hasSelfIntersect();
     }
 
     public Figure cut(Figure figure) {
