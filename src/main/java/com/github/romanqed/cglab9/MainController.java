@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 
@@ -80,11 +81,11 @@ public class MainController implements Initializable {
     }
 
     private void commitCutter(Figure figure) {
-        this.pool.add(new CutterImpl(figure));
+        this.pool.add(new FigureImpl(figure, this.cutter, value -> this.cutter = value));
     }
 
     private void commitFigure(Figure figure) {
-        this.pool.add(new FigureImpl(figure));
+        this.pool.add(new FigureImpl(figure, this.figure, value -> this.figure = value));
     }
 
     private <T> T parse(TextField textField, Function<String, T> parser) {
@@ -216,45 +217,25 @@ public class MainController implements Initializable {
     }
 
     private final class FigureImpl implements Action {
-        private final Figure backup;
+        private final Figure figure;
         private final Figure previous;
+        private final Consumer<Figure> setter;
 
-        private FigureImpl(Figure backup) {
-            this.backup = backup;
-            this.previous = figure;
+        private FigureImpl(Figure figure, Figure previous, Consumer<Figure> setter) {
+            this.figure = figure;
+            this.previous = previous;
+            this.setter = setter;
         }
 
         @Override
         public void perform() {
-            figure = this.backup;
+            setter.accept(figure);
             refresh();
         }
 
         @Override
         public void undo() {
-            figure = previous;
-            refresh();
-        }
-    }
-
-    private final class CutterImpl implements Action {
-        private final Figure backup;
-        private final Figure previous;
-
-        public CutterImpl(Figure backup) {
-            this.backup = backup;
-            this.previous = cutter;
-        }
-
-        @Override
-        public void perform() {
-            cutter = backup;
-            refresh();
-        }
-
-        @Override
-        public void undo() {
-            cutter = previous;
+            setter.accept(previous);
             refresh();
         }
     }
