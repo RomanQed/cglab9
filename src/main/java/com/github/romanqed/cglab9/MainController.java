@@ -199,6 +199,7 @@ public class MainController implements Initializable {
             return;
         }
         buffer.add(toAdd);
+        refresh();
     }
 
     @FXML
